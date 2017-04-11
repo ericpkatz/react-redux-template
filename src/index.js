@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import ProductsPage from './ProductsPage'; 
 import { Provider } from 'react-redux';
 import store from './store';
+import Home from './Home';
 
 
 
@@ -14,7 +15,8 @@ const routes = (
   <Provider store = {store }>
     <Router history={ hashHistory }>
       <Route path='/' component={ App }>
-        <IndexRoute component={ ProductsPage } />
+        <IndexRoute component={ Home } />
+        <Route path='products' component={ProductsPage} />
       </Route>
     </Router>
   </Provider>
