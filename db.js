@@ -3,7 +3,10 @@ const Sequelize = require('sequelize');
 const conn = new Sequelize(process.env.DATABASE_URL);
 
 const Product = conn.define('product', {
-  name: conn.Sequelize.STRING
+  name: {
+    type: conn.Sequelize.STRING,
+    unique: true
+  }
 });
 
 const User = conn.define('user', {

@@ -19,6 +19,12 @@ app.delete('/products/:id', (req, res, next)=> {
     .catch(next);
 });
 
+app.post('/products', (req, res, next)=> {
+  models.Product.create(req.body)
+    .then( product => res.send(product))
+    .catch(next);
+});
+
 app.get('/auth/:token', (req, res, next)=> {
   const token = jwt.decode(req.params.token, JWT_SECRET); 
   models.User.findById(token.id)

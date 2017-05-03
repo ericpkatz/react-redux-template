@@ -13,8 +13,24 @@ const loadProducts = ()=> {
   };
 };
 
+const destroyProduct = (product)=> {
+  return (dispatch)=> {
+    return axios.delete(`/api/products/${product.id}`)
+      .then(response => dispatch(loadProducts()));
+  };
+};
+
+const createProduct = (product)=> {
+  return (dispatch)=> {
+    return axios.post(`/api/products`, product)
+      .then(response => dispatch(loadProducts()));
+  };
+};
+
 export {
-  loadProducts
+  loadProducts,
+  destroyProduct,
+  createProduct
 };
 
 const productsReducer = (state=[], action)=> {
