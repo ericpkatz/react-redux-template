@@ -54,6 +54,9 @@ const ordersReducer = (state=[], action)=> {
     case LOAD_ORDERS_SUCCESS:
       state = action.orders;
       break;
+    case 'LOGOUT_SUCCESS':
+      state = []; 
+      break;
   }
   return state;
 };

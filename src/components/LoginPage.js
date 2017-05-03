@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { login } from '../redux/reducers/userReducer.js';
+import { loadOrders } from '../redux/reducers/ordersReducer.js';
 
 
 const Login = ({ name, password, onChange, login, error } )=> {
@@ -51,6 +52,7 @@ const mapDispatchToProps = (dispatch)=> {
   return {
     login: (credentials)=> {
       return dispatch(login(credentials))
+        .then( user => dispatch(loadOrders(user)))
         .then(()=> hashHistory.push('/'))
     }
   };

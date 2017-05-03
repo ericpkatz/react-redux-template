@@ -35,9 +35,13 @@ const CartPage = ({ cart, removeItemFromCart, user, addItemToCart, checkout })=>
           })
         }
       </ul>
-      <button onClick={ ()=> checkout(user, cart)} className='btn btn-primary'>
-        Checkout
-      </button>
+      {
+        cart.lineItems.length ? (
+          <button onClick={ ()=> checkout(user, cart)} className='btn btn-primary'>
+            Checkout
+          </button>
+        ) : (null) 
+      }
     </div>
  );
 };
