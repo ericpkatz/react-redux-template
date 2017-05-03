@@ -62,8 +62,10 @@ app.put('/users/:userId/orders/:id', (req, res, next)=> {
 
 app.post('/users/:userId/orders/:orderId/lineItems', (req, res, next)=> {
   models.LineItem.findOne({
-    productId: req.body.productId,
-    orderId: req.params.orderId
+    where: {
+      productId: req.body.productId,
+      orderId: req.params.orderId
+    }
   })
   .then( lineItem => {
     if(lineItem){

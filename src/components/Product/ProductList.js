@@ -1,21 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { destroyProduct } from '../../redux/reducers/productsReducer';
+import { addItemToCart } from '../../redux/reducers/ordersReducer';
+import { hashHistory } from 'react-router';
 
-const ProductListItem = ({ product, destroyProduct })=> (
+const ProductListItem = ({ product, addItemToCart })=> (
   <li className='list-group-item'>
     { product.name }
-    <button onClick={ destroyProduct } className='btn btn-danger pull-right'>x</button>
+    <button onClick={ addItemToCart } className='btn btn-default pull-right'>+</button>
     <br style={{ clear: 'both'}} />
   </li>
 );
 
-const ProductList = ({ products, destroyProduct})=> (
+const ProductList = ({ products, destroyProduct, user, cart, addItemToCart })=> (
     <ul className='list-group'>
     {
       products.map( product => {
         return (
-          <ProductListItem  key={ product.id} product={ product } destroyProduct={()=> destroyProduct(product)} /> 
+          <ProductListItem
+          key={ product.id}
+          product={ product }
+          addItemToCart={()=> addItemToCart( user, cart, product )}/> 
         );
       })
     }
@@ -24,14 +28,18 @@ const ProductList = ({ products, destroyProduct})=> (
 
 const mapDispatchToProps = (dispatch)=> (
   {
-    destroyProduct: (product)=> dispatch(destroyProduct(product))
+    destroyProduct: (product)=> dispatch(destroyProduct(product)),
+    addItemToCart: ( user, cart, product )=> dispatch(addItemToCart( user, cart, product)).then(()=> hashHistory.push('/cart'))
   }
 );
 
-const mapStateToProps = (state)=> (
-  {
-    products: state.products
+const mapStateToProps = ({ products, orders, user })=> {
+  const cart = orders.filter(order => order.state === 'CART');
+  return {
+    products,
+    cart: cart ? cart[0] : null,
+    user
   }
-);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
