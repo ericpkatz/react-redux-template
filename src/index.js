@@ -1,26 +1,15 @@
 import React, { Component} from 'react';
 import { render } from 'react-dom';
-import App from './App';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import ProductsPage from './ProductsPage'; 
-import { Provider } from 'react-redux';
-import store from './store';
-import Home from './Home';
+import { Provider, connect } from 'react-redux';
+import store from './redux/store';
+import Routes from './Routes';
 
 
-
-const root = document.getElementById('root');
-
-const routes = (
+const App = (
   <Provider store = {store }>
-    <Router history={ hashHistory }>
-      <Route path='/' component={ App }>
-        <IndexRoute component={ Home } />
-        <Route path='products' component={ProductsPage} />
-      </Route>
-    </Router>
+    <Routes />
   </Provider>
 );
 
 
-render(routes, root);
+render(App, root);

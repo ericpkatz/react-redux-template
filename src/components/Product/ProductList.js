@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { destroyProduct } from './productsReducer';
+import { destroyProduct } from '../../redux/reducers/productsReducer';
 
 const ProductListItem = ({ product, destroyProduct })=> (
   <li className='list-group-item'>
