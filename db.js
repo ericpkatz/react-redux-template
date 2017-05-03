@@ -17,6 +17,27 @@ const User = conn.define('user', {
   password: conn.Sequelize.STRING
 });
 
+const Order = conn.define('order', {
+  state: {
+    type: conn.Sequelize.ENUM('CART', 'ORDER'),
+    defaultValue: 'CART'
+  }
+});
+
+const LineItem = conn.define('lineItem', {
+  quantity: {
+    type: conn.Sequelize.INTEGER,
+    defaultValue: 0
+  }
+});
+
+LineItem.belongsTo(Order);
+LineItem.belongsTo(Product);
+
+Order.hasMany(LineItem);
+Order.belongsTo(User);
+User.hasMany(Order);
+
 const sync = ()=> conn.sync({ force: true });
 
 const seed = ()=> {
@@ -26,7 +47,7 @@ const seed = ()=> {
 
   return sync()
     .then(()=> {
-      return User.destroy({ truncate: true });//not sure why i need this?
+      //return User.destroy({ truncate: true });//not sure why i need this?
     })
     .then(()=> {
       const promises = products.map(name => Product.create({ name }))
@@ -49,7 +70,9 @@ const seed = ()=> {
 module.exports = {
   models: {
     Product,
-    User
+    User,
+    Order,
+    LineItem
   },
   sync,
   seed
