@@ -8,7 +8,16 @@ module.exports = app;
 
 
 app.get('/products', (req, res, next)=> {
-  models.Product.findAll({ order: 'name'})
+  models.Product.findAll({ order: 'name',
+    include: [
+      {
+        model: models.LineItem,
+        include: [
+          models.Review
+        ]
+      }
+    ] 
+  })
     .then( products => res.send(products ))
     .catch(next);
 });
@@ -25,13 +34,24 @@ app.post('/products', (req, res, next)=> {
     .catch(next);
 });
 
+app.post('/users/:userId/reviews', (req, res, next)=> {
+  models.Review.create({
+    lineItemId: req.body.lineItemId,
+    rating: req.body.rating,
+    text: req.body.text
+  })
+  .then( review => res.send(review))
+  .catch(next);
+
+});
+
 app.get('/users/:userId/orders', (req, res, next)=> {
   const qry = ()=> {
     return models.Order.findAll({
       where: { userId: req.params.userId },
       include: [ {
         model: models.LineItem,
-        include: [ models.Product ]
+        include: [ models.Product, models.Review ]
       }]
     });
   }

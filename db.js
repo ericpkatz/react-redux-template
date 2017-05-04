@@ -31,9 +31,22 @@ const LineItem = conn.define('lineItem', {
   }
 });
 
+const Review = conn.define('review', {
+  text: {
+    type: conn.Sequelize.TEXT
+  },
+  rating: {
+    type: conn.Sequelize.INTEGER,
+    defaultValue: 0
+  }
+});
+
 LineItem.belongsTo(Order);
 LineItem.belongsTo(Product);
+Review.belongsTo(LineItem);
+LineItem.hasMany(Review);
 
+Product.hasMany(LineItem);
 Order.hasMany(LineItem);
 Order.belongsTo(User);
 User.hasMany(Order);
@@ -72,7 +85,8 @@ module.exports = {
     Product,
     User,
     Order,
-    LineItem
+    LineItem,
+    Review
   },
   sync,
   seed

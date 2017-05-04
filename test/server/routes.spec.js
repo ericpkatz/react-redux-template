@@ -59,6 +59,18 @@ describe('routes', ()=> {
         .then( result => {
           expect(result.status).to.equal(200);
           expect(result.body.state).to.equal('ORDER');
+        })
+        .then(result => { 
+          return app.post(`/api/users/${moe.id}/orders/${cart.id}/lineItems`).send({ productId: foo.id });
+        })
+        .then( lineItem => {
+          return app.post(`/api/users/${moe.id}/reviews`)
+            .send({ lineItemId: lineItem.id, rating: 2, text: 'is was great' });
+        })
+        .then( result => {
+          expect(result.status).to.equal(200);
+        })
+        .then( ()=> {
           return app.get(`/api/users/${moe.id}/orders`);
         })
         .then(result => { 
@@ -69,6 +81,7 @@ describe('routes', ()=> {
         .then( result => {
           expect(result.status).to.equal(200);
           expect(result.body.quantity).to.equal(1);
+          let lineItem = result.body;
           return app.post(`/api/users/${moe.id}/orders/${cart.id}/lineItems`).send({ productId: foo.id });
         })
         .then( result => {

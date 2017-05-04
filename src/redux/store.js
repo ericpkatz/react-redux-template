@@ -8,7 +8,7 @@ import ordersReducer from './reducers/ordersReducer';
 const combined = combineReducers({
   products: productsReducer,
   user: userReducer,
-  orders: ordersReducer
+  orders: ordersReducer,
 });
 
 const store = createStore(combined, applyMiddleware(thunk));

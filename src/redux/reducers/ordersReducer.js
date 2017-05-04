@@ -24,6 +24,18 @@ const addItemToCart = (user, cart, product)=> {
   };
 };
 
+const addRating = (user, lineItem, rating)=> {
+  return (dispatch)=> {
+    return axios.post(`/api/users/${user.id}/reviews/`,
+      {
+        rating,
+        lineItemId: lineItem.id
+      }
+    )
+      .then(response => dispatch(loadOrders(user)));
+  };
+};
+
 const checkout = (user, cart)=> {
   return (dispatch)=> {
     return axios.put(`/api/users/${user.id}/orders/${cart.id}`,
@@ -46,7 +58,8 @@ export {
   loadOrders,
   addItemToCart,
   removeItemFromCart,
-  checkout
+  checkout,
+  addRating
 };
 
 const ordersReducer = (state=[], action)=> {

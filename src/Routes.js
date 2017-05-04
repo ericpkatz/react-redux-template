@@ -33,7 +33,9 @@ const Routes = ({ bootstrap })=> {
 const mapDispatchToProps = (dispatch)=> {
   const bootstrap = ()=> {
     dispatch(exchangeTokenForUser())
-      .then( user => dispatch(loadOrders(user)));
+      .then( user => 
+        dispatch(loadOrders(user))
+      );
     dispatch(loadProducts());
   };
   return {
