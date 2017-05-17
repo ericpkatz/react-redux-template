@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { login } from '../redux/reducers/userReducer.js';
 
 
-const Login = ({ name, password, onChange, login, error } )=> {
+const Login = ({ name, password, onChange, login, error, USE_OAUTH } )=> {
+  console.log(USE_OAUTH);
   return (
     <form className='well'>
       {
@@ -19,6 +20,10 @@ const Login = ({ name, password, onChange, login, error } )=> {
         <input value={ password } className='form-control' name='password' onChange={ onChange }/>
       </div>
       <button className='btn btn-primary' onClick={ login } disabled={ !name || !password}>Login</button>
+      { USE_OAUTH ? (
+        <a id='login' className='btn btn-primary' href='/login/google'>Log into our site from Google</a>
+        ): (null)
+      }
     </form>
   );
 };
@@ -36,13 +41,14 @@ class LoginPage extends Component{
   }
   render(){
     const { name, password, error } = this.state;
+    const { USE_OAUTH } = this.props;
     const login = (ev)=> {
       ev.preventDefault();
       this.props.login({ name, password })
         .catch((ex)=> { this.setState( { error: 'bad username and password' })});
     }
     return (
-      <Login error={error} login={ login } name={ name } password={ password } onChange={ this.onChange } login={ login }></Login>
+      <Login error={error} login={ login } USE_OAUTH={USE_OAUTH} name={ name } password={ password } onChange={ this.onChange } login={ login }></Login>
     );
   }
 }
@@ -56,4 +62,10 @@ const mapDispatchToProps = (dispatch)=> {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+const mapStateToProps = ()=> {
+  return {
+    USE_OAUTH: window.USE_OAUTH
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

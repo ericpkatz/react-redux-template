@@ -14,7 +14,8 @@ const User = conn.define('user', {
     type: conn.Sequelize.STRING,
     unique: true
   },
-  password: conn.Sequelize.STRING
+  password: conn.Sequelize.STRING,
+  token: conn.Sequelize.STRING
 });
 
 const sync = ()=> conn.sync({ force: true });

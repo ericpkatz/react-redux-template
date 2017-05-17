@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import productsReducer from './reducers/productsReducer';
 import userReducer from './reducers/userReducer'; 
 
-
 const combined = combineReducers({
   products: productsReducer,
   user: userReducer

@@ -12,9 +12,12 @@
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
     "chai": "^3.5.0",
+    "ejs": "^2.5.6",
     "express": "^4.15.2",
     "jwt-simple": "^0.5.1",
     "mocha": "^3.3.0",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.5",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -35,7 +38,7 @@
     "postinstall": "npm run webpack",
     "test:dev": "JWT_SECRET=foo DATABASE_URL=postgres://localhost/react_template_db_test nodemon ./node_modules/mocha/bin/mocha --recursive",
     "webpack": "./node_modules/webpack/bin/webpack.js",
-    "start:dev": "npm run webpack -- -w & JWT_SECRET=foo DATABASE_URL=postgres://localhost/react_template_db nodemon --ignore dist/ --ignore src/ server.js"
+    "start:dev": "npm run webpack -- -w & USE_OAUTH=true JWT_SECRET=foo NODE_ENV=development DATABASE_URL=postgres://localhost/react_template_db nodemon --ignore dist/ --ignore src/ server.js"
   },
   "keywords": [],
   "author": "",
