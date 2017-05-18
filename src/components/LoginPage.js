@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { login } from '../redux/reducers/authReducer.js';
 
 
-const Login = ({ name, password, onChange, login, error, USE_OAUTH } )=> {
+const Login = ({ name, password, onChange, login, error, GOOGLE_OAUTH } )=> {
   return (
     <form className='well'>
       {
@@ -19,7 +19,7 @@ const Login = ({ name, password, onChange, login, error, USE_OAUTH } )=> {
         <input value={ password } className='form-control' name='password' onChange={ onChange }/>
       </div>
       <button className='btn btn-primary' onClick={ login } disabled={ !name || !password}>Login</button>
-      { USE_OAUTH ? (
+      { GOOGLE_OAUTH ? (
         <a id='login' className='btn btn-primary' href='/login/google'>Log into our site from Google</a>
         ): (null)
       }
@@ -47,7 +47,7 @@ class LoginPage extends Component{
         .catch((ex)=> { this.setState( { error: 'bad username and password' })});
     }
     return (
-      <Login error={error} login={ login } USE_OAUTH={USE_OAUTH} name={ name } password={ password } onChange={ this.onChange } login={ login }></Login>
+      <Login error={error} login={ login } GOOGLE_OAUTH={GOOGLE_OAUTH} name={ name } password={ password } onChange={ this.onChange } login={ login }></Login>
     );
   }
 }
@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch)=> {
 
 const mapStateToProps = ()=> {
   return {
-    USE_OAUTH: window.USE_OAUTH
+    GOOGLE_OAUTH: window.GOOGLE_OAUTH
   }
 };
 

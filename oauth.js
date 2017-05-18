@@ -3,35 +3,25 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const jwt = require('jwt-simple');
 const models = require('./db').models;
 
-//if running locally you can have a file with your 'secrets'
-//if you are deployed- set environmental variables
-var config = process.env; 
-if(process.env.NODE_ENV === 'development'){
-  config = require('./config.json');
-}
 
-module.exports = (app)=> {
+module.exports = (app, config)=> {
   app.use(passport.initialize());
 
     //strategy consists of things google needs to know, plus a callback when we successfully get a token which identifies the user
-    passport.use(new GoogleStrategy({
-      clientID: config.CLIENT,
-      clientSecret: config.SECRET,
-      callbackURL: config.URL 
-    }, 
+    passport.use(new GoogleStrategy(config, 
     function (token, refreshToken, profile, done) { 
       //this will be called after we get a token from google 
       //google has looked at our applications secret token and the token they have sent our user and exchanged it for a token we can use
       //now it will be our job to find or create a user with googles information
       if(!profile.emails.length)//i need an email
         return done('no emails found', null);
-      models.User.findOne({ where: {token: profile.id} })
+      models.User.findOne({ where: {googleUserId: profile.id} })
         .then(function(user){
           if(user)
             return user;
           return models.User.create({
             name: profile.emails[0].value, 
-            token: profile.id}
+            googleUserId: profile.id}
           );
         })
         .then(function(user){

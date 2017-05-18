@@ -4,9 +4,20 @@ const path = require('path');
 
 const app = express();
 
+//if running locally you can have a file with your 'secrets'
+//if you are deployed- set environmental variables
+var config = process.env; 
+if(process.env.NODE_ENV === 'development'){
+  config = require('./config.json');
+}
 
-if(process.env.USE_OAUTH){
-  require('./oauth')(app);
+if(config.GOOGLE_OAUTH_SECRET){
+  const GOOGLE_OAUTH_CONFIG = {
+      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: config.GOOGLE_OAUTH_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL 
+    };
+  require('./oauth')(app, GOOGLE_OAUTH_CONFIG); 
 }
 
 module.exports = app;
@@ -16,7 +27,7 @@ app.use(require('body-parser').json());
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-app.get('/', (req, res, next)=> res.render('index.ejs', { USE_OAUTH: !!process.env.USE_OAUTH}));
+app.get('/', (req, res, next)=> res.render('index.ejs', { GOOGLE_OAUTH: !!config.GOOGLE_OAUTH_SECRET}));
 
 app.use('/api', require('./routes'));
 

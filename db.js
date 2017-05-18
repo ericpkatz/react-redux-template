@@ -15,7 +15,7 @@ const User = conn.define('user', {
     unique: true
   },
   password: conn.Sequelize.STRING,
-  token: conn.Sequelize.STRING
+  googleUserId: conn.Sequelize.STRING
 });
 
 const sync = ()=> conn.sync({ force: true });
