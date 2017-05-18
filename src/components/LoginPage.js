@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { login } from '../redux/reducers/userReducer.js';
+import { login } from '../redux/reducers/authReducer.js';
 
 
 const Login = ({ name, password, onChange, login, error, USE_OAUTH } )=> {
-  console.log(USE_OAUTH);
   return (
     <form className='well'>
       {

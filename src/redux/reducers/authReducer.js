@@ -65,7 +65,7 @@ export {
 };
 
 
-const userReducer = (state={}, action)=> {
+const authReducer = (state={}, action)=> {
   switch(action.type){
     case LOGIN_SUCCESS:
       state = Object.assign({}, state, action.user); 
@@ -78,4 +78,4 @@ const userReducer = (state={}, action)=> {
 };
 
 
-export default userReducer;
+export default authReducer;

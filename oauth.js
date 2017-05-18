@@ -31,7 +31,7 @@ module.exports = (app)=> {
             return user;
           return models.User.create({
             name: profile.emails[0].value, 
-            token: token}
+            token: profile.id}
           );
         })
         .then(function(user){

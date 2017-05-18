@@ -8,7 +8,7 @@ import Home from './components/Home';
 import ProductsPage from './components/Product/ProductsPage'; 
 import LoginPage from './components/LoginPage'; 
 
-import { exchangeTokenForUser } from './redux/reducers/userReducer';
+import { exchangeTokenForUser } from './redux/reducers/authReducer';
 import { loadProducts } from './redux/reducers/productsReducer';
 
 

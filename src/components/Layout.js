@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { logout } from '../redux/reducers/userReducer';
+import { logout } from '../redux/reducers/authReducer';
 
-const Layout = ({ children, products, user, logout })=> (
+const Layout = ({ children, products, auth, logout })=> (
   <div className='container'>
     <h1>React Redux Template</h1>
     <div className='container'>
@@ -12,10 +12,10 @@ const Layout = ({ children, products, user, logout })=> (
     <Link to='/products'>Products ({ products.length})</Link>
     { ' | ' }
     {
-      !user.id ? (
+      !auth.id ? (
         <Link to='/login'>Login</Link>
       ):(
-        <a onClick={ logout }>Logout ({ user.name })</a>
+        <a onClick={ logout }>Logout ({ auth.name })</a>
       )
     }
     </div>
@@ -23,8 +23,8 @@ const Layout = ({ children, products, user, logout })=> (
   </div> 
 );
 
-const mapStateToProps = ({ products, user})=>(
-  { products, user }
+const mapStateToProps = ({ products, auth})=>(
+  { products, auth }
 );
 
 const mapDispatchToProps = (dispatch)=> {
