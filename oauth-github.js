@@ -15,6 +15,7 @@ passport.use(new GitHubStrategy(config,
           if(user)
             return user;
           return models.User.create({
+            githubAccessToken: accessToken,
             name: `GitHub ${profile.id}`, 
             githubUserId: profile.id}
           );
