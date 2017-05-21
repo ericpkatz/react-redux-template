@@ -17,7 +17,7 @@ if(config.GOOGLE_OAUTH_SECRET){
       clientSecret: config.GOOGLE_OAUTH_SECRET,
       callbackURL: process.env.GOOGLE_CALLBACK_URL 
     };
-  require('./oauth')(app, GOOGLE_OAUTH_CONFIG); 
+  require('./oauth-google')(app, GOOGLE_OAUTH_CONFIG); 
 }
 
 if(config.GITHUB_OAUTH_SECRET){
