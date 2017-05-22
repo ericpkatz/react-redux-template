@@ -20,7 +20,7 @@ module.exports = (app, config)=> {
           if(user)
             return user;
           return models.User.create({
-            name: profile.emails[0].value, 
+            name: `${profile.emails[0].value}-Google`, 
             googleUserId: profile.id}
           );
         })

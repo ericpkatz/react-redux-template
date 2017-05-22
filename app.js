@@ -15,7 +15,7 @@ if(config.GOOGLE_OAUTH_SECRET){
   const GOOGLE_OAUTH_CONFIG = {
       clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
       clientSecret: config.GOOGLE_OAUTH_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL 
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
     };
   require('./oauth-google')(app, GOOGLE_OAUTH_CONFIG); 
 }
@@ -24,7 +24,8 @@ if(config.GITHUB_OAUTH_SECRET){
   const GITHUB_OAUTH_CONFIG = {
       clientID: process.env.GITHUB_OAUTH_CLIENT_ID,
       clientSecret: config.GITHUB_OAUTH_SECRET,
-      callbackURL: process.env.GITHUB_CALLBACK_URL 
+      callbackURL: process.env.GITHUB_CALLBACK_URL,
+      scope: ['read:org', 'notifications']
     };
   require('./oauth-github')(app, GITHUB_OAUTH_CONFIG); 
 }

@@ -2,6 +2,9 @@ const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const jwt = require('jwt-simple');
 const models = require('./db').models;
+const GithubApi = require('github');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 
 module.exports = (app, config)=> {
@@ -26,6 +29,22 @@ passport.use(new GitHubStrategy(config,
         .catch((err)=> done(err, null));
   }
 ));
+
+  app.get('/api/github/:token', (req, res, next)=> {
+    const token = jwt.decode(req.params.token, JWT_SECRET); 
+    models.User.findById(token.id)
+      .then( user => {
+        var gh = new GithubApi();
+        gh.authenticate({
+           token: user.githubAccessToken,
+           type: 'oauth'
+        });
+        gh.repos.getAll({affiliation: 'owner'})
+          .then( repos => res.send(repos))
+          .catch( err => next(err));
+      }) 
+      .catch(next);
+  });
 
   //passport will take care of authentication
   app.get('/login/github', passport.authenticate('github', {

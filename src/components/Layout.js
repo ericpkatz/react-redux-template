@@ -15,7 +15,17 @@ const Layout = ({ children, products, auth, logout })=> (
       !auth.id ? (
         <Link to='/login'>Login</Link>
       ):(
-        <a onClick={ logout }>Logout ({ auth.name })</a>
+        <span>
+          {
+            auth.githubAccessToken ? (
+              <span>
+                <Link to='/github'>Github Repos</Link>
+                { ' | ' }
+              </span>
+            ): (null)
+          }
+          <a onClick={ logout }>Logout ({ auth.name })</a>
+        </span>
       )
     }
     </div>

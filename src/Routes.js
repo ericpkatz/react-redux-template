@@ -7,19 +7,22 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import ProductsPage from './components/Product/ProductsPage'; 
 import LoginPage from './components/LoginPage'; 
+import GithubPage from './components/GithubPage'; 
 
 import { exchangeTokenForUser } from './redux/reducers/authReducer';
 import { loadProducts } from './redux/reducers/productsReducer';
+import { loadRepos } from './redux/reducers/githubReducer';
 
 
 
-const Routes = ({ bootstrap })=> {
+const Routes = ({ bootstrap, getRepos })=> {
   return (
     <Router history={ hashHistory } onEnter={ bootstrap() }>
       <Route path='/' component={ Layout }>
         <IndexRoute component={ Home } />
         <Route path='products' component={ProductsPage} />
         <Route path='login' component={LoginPage} />
+        <Route path='github' component={GithubPage} onEnter={ getRepos() }/>
       </Route>
     </Router>
   );
@@ -31,8 +34,14 @@ const mapDispatchToProps = (dispatch)=> {
       .then( user => console.log(user));
     dispatch(loadProducts());
   };
+
+  const getRepos = ()=> {
+    dispatch(exchangeTokenForUser())
+      .then( ()=> dispatch(loadRepos()));
+  }
   return {
-    bootstrap
+    bootstrap,
+    getRepos
   };
 };
 
