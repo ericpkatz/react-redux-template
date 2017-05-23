@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const jwt = require('jwt-simple');
-const models = require('./db').models;
+const models = require('../db').models;
 
 
 module.exports = (app, config)=> {

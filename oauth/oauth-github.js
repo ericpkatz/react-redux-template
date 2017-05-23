@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const jwt = require('jwt-simple');
-const models = require('./db').models;
+const models = require('../db').models;
 const GithubApi = require('github');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
@@ -35,6 +35,7 @@ passport.use(new GitHubStrategy(config,
     models.User.findById(token.id)
       .then( user => {
         var gh = new GithubApi();
+        console.log(user.githubAccessToken);
         gh.authenticate({
            token: user.githubAccessToken,
            type: 'oauth'

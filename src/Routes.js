@@ -22,7 +22,7 @@ const Routes = ({ bootstrap, getRepos })=> {
         <IndexRoute component={ Home } />
         <Route path='products' component={ProductsPage} />
         <Route path='login' component={LoginPage} />
-        <Route path='github' component={GithubPage} onEnter={ getRepos() }/>
+        <Route path='github' component={GithubPage} onEnter={ getRepos }/>
       </Route>
     </Router>
   );
