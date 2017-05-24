@@ -5,6 +5,8 @@ import { logout } from '../redux/reducers/authReducer';
 
 const GithubPage = ({ repos })=> (
   <div className='container'>
+    TODO - get all repos
+    <ul className='list-group'>
     {
       repos.map( (repo, idx) => (
           <li className='list-group-item' key={ repo.name }>
@@ -16,6 +18,7 @@ const GithubPage = ({ repos })=> (
         )
       )
     }
+    </ul>
   </div> 
 );
 
