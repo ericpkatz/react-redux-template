@@ -40,7 +40,7 @@
     "postinstall": "npm run webpack",
     "test:dev": "JWT_SECRET=foo DATABASE_URL=postgres://localhost/react_template_db_test nodemon ./node_modules/mocha/bin/mocha --recursive",
     "webpack": "./node_modules/webpack/bin/webpack.js",
-    "start:dev": "npm run webpack -- -w & GITHUB_CALLBACK_URL=http://localhost:3000/auth/github/callback GITHUB_OAUTH_CLIENT_ID=4ad0bd5777e92e48917b GOOGLE_OAUTH_CLIENT_ID=997341330141-dtkh85t7qn5ns3r3avsfuu83fiarmmqu.apps.googleusercontent.com JWT_SECRET=foo NODE_ENV=development DATABASE_URL=postgres://localhost/react_template_db GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback nodemon --ignore dist/ --ignore src/ server.js"
+    "start:dev": "npm run webpack -- -w & SEED=true GITHUB_CALLBACK_URL=http://localhost:3000/auth/github/callback GITHUB_OAUTH_CLIENT_ID=4ad0bd5777e92e48917b GOOGLE_OAUTH_CLIENT_ID=997341330141-dtkh85t7qn5ns3r3avsfuu83fiarmmqu.apps.googleusercontent.com JWT_SECRET=foo NODE_ENV=development DATABASE_URL=postgres://localhost/react_template_db GOOGLE_CALLBACK_URL=http://localhost:3000/auth/google/callback nodemon --ignore dist/ --ignore src/ server.js"
   },
   "keywords": [],
   "author": "",

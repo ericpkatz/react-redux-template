@@ -24,6 +24,11 @@ passport.use(new GitHubStrategy(config,
           );
         })
         .then(function(user){
+          //update access token
+          user.githubAccessToken = accessToken;
+          return user.save();
+        })
+        .then((user)=> {
           done(null, user); 
         })
         .catch((err)=> done(err, null));
@@ -34,7 +39,7 @@ passport.use(new GitHubStrategy(config,
     const token = jwt.decode(req.params.token, JWT_SECRET); 
     models.User.findById(token.id)
       .then( user => {
-        var gh = new GithubApi();
+        var gh = new GithubApi({ debug: true });
         console.log(user.githubAccessToken);
         gh.authenticate({
            token: user.githubAccessToken,
