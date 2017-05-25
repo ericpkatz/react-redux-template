@@ -20,15 +20,24 @@ const Login = ({ name, password, onChange, login, error, GOOGLE_OAUTH, GITHUB_OA
       </div>
       <button className='btn btn-primary' onClick={ login } disabled={ !name || !password}>Login</button>
       { GOOGLE_OAUTH ? (
-        <a id='login' className='btn btn-primary' href='/login/google'>Log into our site from Google</a>
+        <div>
+        <a id='login' className='btn btn-primary btn-block' href='/login/google'>Log into our site from Google</a>
+        <br />
+        </div>
         ): (null)
       }
       { GITHUB_OAUTH ? (
-        <a id='login' className='btn btn-primary' href='/login/github'>Log into our site from Github</a>
+        <div>
+          <a id='login' className='btn-block btn btn-primary' href='/login/github'>Log into our site from Github</a>
+          <br />
+        </div>
         ): (null)
       }
       { FACEBOOK_OAUTH ? (
-        <a id='login' className='btn btn-primary' href='/login/facebook'>Log into our site from Facebook</a>
+        <div>
+          <a id='login' className='btn btn-primary btn-block  ' href='/login/facebook'>Log into our site from Facebook</a>
+          <br />
+        </div>
         ): (null)
       }
     </form>
