@@ -1,6 +1,6 @@
 const passport = require('passport');
 
-module.exports = (app, config)=> {
+module.exports = (app, config, JWT_SECRET)=> {
   const OAUTH_PROVIDERS = ['GOOGLE', 'GITHUB'];
   const oauthProviderMap = {};
   let configured = false;
@@ -19,10 +19,9 @@ module.exports = (app, config)=> {
         };
       const scope = process.env[`${name}_SCOPE`];
       if(scope){
-        console.log(scope);
         CONFIG.scope = JSON.parse(scope);
       }
-      require(`./oauth-${name.toLowerCase()}`)(app, CONFIG); 
+      require(`./oauth-${name.toLowerCase()}`)(app, CONFIG, JWT_SECRET); 
     }
     oauthProviderMap[`${name}_OAUTH`] = !!secret;
   });

@@ -22,7 +22,9 @@ app.use(require('body-parser').json());
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-const oauthProviderMap = require('./oauth')(app, config);
+const JWT_SECRET = process.env.JWT_SECRET || 'foo';
+
+const oauthProviderMap = require('./oauth')(app, config, JWT_SECRET);
 
 app.get('/', (req, res, next)=> res.render('index.ejs', oauthProviderMap ));
 

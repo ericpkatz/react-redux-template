@@ -4,10 +4,7 @@ const jwt = require('jwt-simple');
 const models = require('../db').models;
 const GithubApi = require('github');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'foo';
-
-
-module.exports = (app, config)=> {
+module.exports = (app, config, JWT_SECRET)=> {
   var GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy(config,
@@ -61,7 +58,7 @@ passport.use(new GitHubStrategy(config,
     failureRedirect: '/',
     session: false
   }), function(req, res,next){
-    var jwtToken = jwt.encode({ id: req.user.id }, process.env.JWT_SECRET);
+    var jwtToken = jwt.encode({ id: req.user.id }, JWT_SECRET);
     res.redirect(`/?token=${jwtToken}`);
   });
 }

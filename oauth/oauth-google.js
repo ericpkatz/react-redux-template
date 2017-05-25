@@ -4,7 +4,7 @@ const models = require('../db').models;
 const passport = require('passport');
 
 
-module.exports = (app, config)=> {
+module.exports = (app, config, JWT_SECRET)=> {
 
     //strategy consists of things google needs to know, plus a callback when we successfully get a token which identifies the user
     passport.use(new GoogleStrategy(config, 
@@ -24,6 +24,11 @@ module.exports = (app, config)=> {
           );
         })
         .then(function(user){
+          //update access token
+          user.googleAccessToken = token;
+          return user.save();
+        })
+        .then(function(user){
           done(null, user); 
         })
         .catch((err)=> done(err, null));
@@ -40,7 +45,7 @@ module.exports = (app, config)=> {
     failureRedirect: '/',
     session: false
   }), function(req, res,next){
-    var jwtToken = jwt.encode({ id: req.user.id }, process.env.JWT_SECRET);
+    var jwtToken = jwt.encode({ id: req.user.id }, JWT_SECRET);
     res.redirect(`/?token=${jwtToken}`);
   });
 }
