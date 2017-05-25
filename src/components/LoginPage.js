@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { login } from '../redux/reducers/authReducer.js';
 
 
-const Login = ({ name, password, onChange, login, error, GOOGLE_OAUTH, GITHUB_OAUTH } )=> {
+const Login = ({ name, password, onChange, login, error, GOOGLE_OAUTH, GITHUB_OAUTH, FACEBOOK_OAUTH } )=> {
   return (
     <form className='well'>
       {
@@ -25,6 +25,10 @@ const Login = ({ name, password, onChange, login, error, GOOGLE_OAUTH, GITHUB_OA
       }
       { GITHUB_OAUTH ? (
         <a id='login' className='btn btn-primary' href='/login/github'>Log into our site from Github</a>
+        ): (null)
+      }
+      { FACEBOOK_OAUTH ? (
+        <a id='login' className='btn btn-primary' href='/login/facebook'>Log into our site from Facebook</a>
         ): (null)
       }
     </form>
@@ -51,7 +55,7 @@ class LoginPage extends Component{
         .catch((ex)=> { this.setState( { error: 'bad username and password' })});
     }
     return (
-      <Login error={error} login={ login } GITHUB_OAUTH={GITHUB_OAUTH} GOOGLE_OAUTH={GOOGLE_OAUTH} name={ name } password={ password } onChange={ this.onChange } login={ login }></Login>
+      <Login error={error} login={ login } FACEBOOK_OAUTH={FACEBOOK_OAUTH} GITHUB_OAUTH={GITHUB_OAUTH} GOOGLE_OAUTH={GOOGLE_OAUTH} name={ name } password={ password } onChange={ this.onChange } login={ login }></Login>
     );
   }
 }
@@ -68,7 +72,8 @@ const mapDispatchToProps = (dispatch)=> {
 const mapStateToProps = ()=> {
   return {
     GOOGLE_OAUTH: window.GOOGLE_OAUTH,
-    GITHUB_OAUTH: window.GITHUB_OAUTH
+    GITHUB_OAUTH: window.GITHUB_OAUTH,
+    FACEBOOK_OAUTH: window.FACEBOOK_OAUTH,
   }
 };
 

@@ -1,7 +1,7 @@
 const passport = require('passport');
 
 module.exports = (app, config, JWT_SECRET)=> {
-  const OAUTH_PROVIDERS = ['GOOGLE', 'GITHUB'];
+  const OAUTH_PROVIDERS = ['GOOGLE', 'GITHUB', 'FACEBOOK'];
   const oauthProviderMap = {};
   let configured = false;
 

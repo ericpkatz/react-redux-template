@@ -17,7 +17,9 @@ const User = conn.define('user', {
   password: conn.Sequelize.STRING,
   googleUserId: conn.Sequelize.STRING,
   githubUserId: conn.Sequelize.STRING,
-  githubAccessToken: conn.Sequelize.STRING
+  githubAccessToken: conn.Sequelize.STRING,
+  facebookUserId: conn.Sequelize.STRING,
+  facebookAccessToken: conn.Sequelize.STRING
 });
 
 const sync = ()=> conn.sync({ force: true });
