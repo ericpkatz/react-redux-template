@@ -4,11 +4,10 @@ const jwt = require('jwt-simple');
 const models = require('../db').models;
 const GithubApi = require('github');
 
-module.exports = (app, config, JWT_SECRET)=> {
-  var GitHubStrategy = require('passport-github').Strategy;
+module.exports = (app, config, JWT_SECRET) => {
 
-passport.use(new GitHubStrategy(config,
-  function(accessToken, refreshToken, profile, done) {
+  passport.use(new GitHubStrategy(config,
+    function(accessToken, refreshToken, profile, done) {
       models.User.findOne({ where: {githubUserId: profile.id} })
         .then(function(user){
           if(user)
@@ -20,7 +19,6 @@ passport.use(new GitHubStrategy(config,
           );
         })
         .then(function(user){
-          //update access token
           user.githubAccessToken = accessToken;
           return user.save();
         })
@@ -28,18 +26,17 @@ passport.use(new GitHubStrategy(config,
           done(null, user); 
         })
         .catch((err)=> done(err, null));
-  }
-));
+    }
+  ));
 
   app.get('/api/github/:token', (req, res, next)=> {
     const token = jwt.decode(req.params.token, JWT_SECRET); 
     models.User.findById(token.id)
       .then( user => {
         var gh = new GithubApi({ debug: true });
-        console.log(user.githubAccessToken);
         gh.authenticate({
-           token: user.githubAccessToken,
-           type: 'oauth'
+          token: user.githubAccessToken,
+          type: 'oauth'
         });
         gh.repos.getAll({affiliation: 'owner'})
           .then( repos => res.send(repos))
@@ -57,8 +54,8 @@ passport.use(new GitHubStrategy(config,
   app.get('/auth/github/callback', passport.authenticate('github', {
     failureRedirect: '/',
     session: false
-  }), function(req, res,next){
+  }), function(req, res){
     var jwtToken = jwt.encode({ id: req.user.id }, JWT_SECRET);
     res.redirect(`/?token=${jwtToken}`);
   });
-}
+};

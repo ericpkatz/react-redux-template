@@ -6,33 +6,28 @@ const passport = require('passport');
 
 module.exports = (app, config, JWT_SECRET)=> {
 
-    //strategy consists of things google needs to know, plus a callback when we successfully get a token which identifies the user
-    passport.use(new GoogleStrategy(config, 
-    function (token, refreshToken, profile, done) { 
-      //this will be called after we get a token from google 
-      //google has looked at our applications secret token and the token they have sent our user and exchanged it for a token we can use
-      //now it will be our job to find or create a user with googles information
-      if(!profile.emails.length)//i need an email
-        return done('no emails found', null);
-      models.User.findOne({ where: {googleUserId: profile.id} })
-        .then(function(user){
-          if(user)
-            return user;
-          return models.User.create({
-            name: `${profile.emails[0].value}-Google`, 
-            googleUserId: profile.id}
-          );
-        })
-        .then(function(user){
-          //update access token
-          user.googleAccessToken = token;
-          return user.save();
-        })
-        .then(function(user){
-          done(null, user); 
-        })
-        .catch((err)=> done(err, null));
-    }));
+  passport.use(new GoogleStrategy(config, (token, refreshToken, profile, done) => { 
+    if(!profile.emails.length)//i need an email
+      return done('no emails found', null);
+    models.User.findOne({ where: {googleUserId: profile.id} })
+      .then(function(user){
+        if(user)
+          return user;
+        return models.User.create({
+          name: `${profile.emails[0].value}-Google`, 
+          googleUserId: profile.id}
+        );
+      })
+      .then(function(user){
+        //update access token
+        user.googleAccessToken = token;
+        return user.save();
+      })
+      .then(function(user){
+        done(null, user); 
+      })
+      .catch((err)=> done(err, null));
+  }));
 
   //passport will take care of authentication
   app.get('/login/google', passport.authenticate('google', {
@@ -44,8 +39,8 @@ module.exports = (app, config, JWT_SECRET)=> {
   app.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/',
     session: false
-  }), function(req, res,next){
+  }), function(req, res){
     var jwtToken = jwt.encode({ id: req.user.id }, JWT_SECRET);
     res.redirect(`/?token=${jwtToken}`);
   });
-}
+};
