@@ -3,10 +3,11 @@
 # npm run start:dev
 
 # create config.json if you want to use OAUTH
-# there is support for Google Oauth and Github Oauth 
+# there is support for Google Oauth and Github Oauth and Facebook Oauth 
 { 
   "GOOGLE_OAUTH_SECRET" : "xxx",
-  "GITHUB_OAUTH_SECRET": "xxx"
+  "GITHUB_OAUTH_SECRET": "xxx",
+  "FACEBOOK_OAUTH_SECRET": "xxx"
 }
 
 # modify the .env file for other settings
