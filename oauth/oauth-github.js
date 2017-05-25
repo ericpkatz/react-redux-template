@@ -1,5 +1,5 @@
-const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
+const passport = require('passport');
 const jwt = require('jwt-simple');
 const models = require('../db').models;
 const GithubApi = require('github');
@@ -8,7 +8,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 
 module.exports = (app, config)=> {
-  app.use(passport.initialize());
   var GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy(config,

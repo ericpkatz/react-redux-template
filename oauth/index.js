@@ -1,10 +1,17 @@
+const passport = require('passport');
+
 module.exports = (app, config)=> {
   const OAUTH_PROVIDERS = ['GOOGLE', 'GITHUB'];
   const oauthProviderMap = {};
+  let configured = false;
 
   OAUTH_PROVIDERS.forEach( name => {
     const secret = config[`${name}_OAUTH_SECRET`];
     if(secret){
+      if(!configured){
+        app.use(passport.initialize());
+        configured = true;
+      }
       const CONFIG = {
           clientID: process.env[`${name}_OAUTH_CLIENT_ID`],
           clientSecret: secret,
@@ -12,12 +19,9 @@ module.exports = (app, config)=> {
         };
       const scope = process.env[`${name}_SCOPE`];
       if(scope){
-        CONFIG.scope = scope;
+        console.log(scope);
+        CONFIG.scope = JSON.parse(scope);
       }
-      //TODO fix me
-      if(name === 'GITHUB')
-        CONFIG.scope = ['read:org', 'notifications'];
-
       require(`./oauth-${name.toLowerCase()}`)(app, CONFIG); 
     }
     oauthProviderMap[`${name}_OAUTH`] = !!secret;

@@ -11,6 +11,8 @@ if(process.env.NODE_ENV === 'development'){
   config = require('./config.json');
 }
 
+console.log(process.env);
+
 
 
 module.exports = app;

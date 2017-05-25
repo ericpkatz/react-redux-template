@@ -1,11 +1,10 @@
-const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const jwt = require('jwt-simple');
 const models = require('../db').models;
+const passport = require('passport');
 
 
 module.exports = (app, config)=> {
-  app.use(passport.initialize());
 
     //strategy consists of things google needs to know, plus a callback when we successfully get a token which identifies the user
     passport.use(new GoogleStrategy(config, 
