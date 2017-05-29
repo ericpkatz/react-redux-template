@@ -31,9 +31,6 @@ const seed = ()=> {
 
   return sync()
     .then(()=> {
-      return User.destroy({ truncate: true });//not sure why i need this?
-    })
-    .then(()=> {
       const promises = products.map(name => Product.create({ name }))
         .concat(users.map( name => User.create( { name, password: name.toUpperCase()})));
       return Promise.all(promises);
