@@ -46,6 +46,7 @@
   },
   "scripts": {
     "postinstall": "npm run webpack",
+    "test:client:dev": "SINGLE_RUN=false ./node_modules/karma/bin/karma start",
     "test:client": "./node_modules/karma/bin/karma start",
     "test:server:dev": "JWT_SECRET=foo DATABASE_URL=postgres://localhost/react_template_db_test nodemon ./node_modules/mocha/bin/mocha --recursive",
     "test:server": "JWT_SECRET=foo DATABASE_URL=postgres://localhost/circle_test ./node_modules/mocha/bin/mocha ./test/server --recursive",
