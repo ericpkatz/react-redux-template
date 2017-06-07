@@ -5,8 +5,27 @@ import { createProduct } from '../../redux/reducers/productsReducer.js';
 
 
 const _ProductForm = ({ name, onChange, error, save } )=> {
+  const _save = (ev)=> {
+    ev.preventDefault();
+    const input = document.getElementById('imageData');
+    const file = input.files[0];
+    console.log(file);
+    const reader = new FileReader();
+    reader.onloadend = (output)=> {
+      console.log(output.target.result);
+      var newImage = document.createElement('img');
+      newImage.src = output.target.result;
+
+      document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+    }
+    reader.readAsDataURL(file);
+    console.log(reader);
+    //const imageData = new FormData(form);
+    //save({ name: name, imageData });
+  }
   return (
-    <form className='well'>
+    <form className='well'  encType="multipart/form-data" >
+      <div id='imgTest' />
       {
         error ? (
           <div className='alert alert-warning'>Error</div>
@@ -15,7 +34,10 @@ const _ProductForm = ({ name, onChange, error, save } )=> {
       <div className='form-group'>
         <input value={ name } className='form-control' name='name' onChange={ onChange }/>
       </div>
-      <button className='btn btn-primary' onClick={ save } disabled={ !name }>Save</button>
+      <div className='form-group'>
+        <input className='form-control' name='imageData' id='imageData' type='file'/>
+      </div>
+      <button className='btn btn-primary' onClick={ _save } disabled={ !name }>Save</button>
     </form>
   );
 };
@@ -33,9 +55,8 @@ class ProductForm extends Component{
   }
   render(){
     const { name, error } = this.state;
-    const save = (ev)=> {
-      ev.preventDefault();
-      this.props.save({ name })
+    const save = (product)=> {
+      this.props.save(product)
         .then(()=> this.setState({ name: '', error: null }))
         .catch((ex)=> { this.setState( { error: ex })});
     }
