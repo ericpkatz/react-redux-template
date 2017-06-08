@@ -9,17 +9,17 @@ const _ProductForm = ({ name, onChange, error, save } )=> {
     ev.preventDefault();
     const input = document.getElementById('imageData');
     const file = input.files[0];
-    console.log(file);
     const reader = new FileReader();
     reader.onloadend = (output)=> {
-      console.log(output.target.result);
+      const imageData = output.target.result;
       var newImage = document.createElement('img');
-      newImage.src = output.target.result;
+      newImage.src = imageData;
 
       document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+      save({ name: name, imageData });
     }
     reader.readAsDataURL(file);
-    console.log(reader);
+    //console.log(reader);
     //const imageData = new FormData(form);
     //save({ name: name, imageData });
   }
