@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "aws-sdk": "^2.66.0",
     "axios": "^0.15.3",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
@@ -31,6 +32,7 @@
     "redux-thunk": "^2.2.0",
     "sequelize": "^3.30.2",
     "supertest": "^3.0.0",
+    "uuid": "^3.0.1",
     "webpack": "^2.3.0"
   },
   "devDependencies": {

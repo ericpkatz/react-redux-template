@@ -1,6 +1,7 @@
 const app = require('express').Router();
 const models = require('./db').models;
 const jwt = require('jwt-simple');
+const uploadToAws = require('./aws');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
@@ -20,7 +21,17 @@ app.delete('/products/:id', (req, res, next)=> {
 });
 
 app.post('/products', (req, res, next)=> {
+  let product;
   models.Product.create(req.body)
+    .then( _product => product = _product) 
+    .then( () => uploadToAws(req.body.imageData))
+    .then( url => {
+      if(!url){
+        return product;
+      }
+      product.imageURL = url;
+      return product.save();
+    })
     .then( product => res.send(product))
     .catch(next);
 });

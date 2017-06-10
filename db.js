@@ -7,9 +7,6 @@ const Product = conn.define('product', {
     type: conn.Sequelize.STRING,
     unique: true
   },
-  imageData: {
-    type: conn.Sequelize.TEXT
-  },
   imageURL: {
     type: conn.Sequelize.STRING
   }

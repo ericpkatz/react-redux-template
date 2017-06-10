@@ -6,8 +6,8 @@ const ProductListItem = ({ product, destroyProduct })=> (
   <li className='list-group-item'>
     { product.name }
     {
-      product.imageData ? (
-        <img src={ product.imageData } width='100px' height='100px'/>
+      product.imageURL ? (
+        <img src={ product.imageURL } width='100px' height='100px'/>
       ) : ( null )
     }
     <button onClick={ destroyProduct } className='btn btn-danger pull-right'>x</button>

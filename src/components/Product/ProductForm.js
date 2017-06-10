@@ -9,23 +9,18 @@ const _ProductForm = ({ name, onChange, error, save } )=> {
     ev.preventDefault();
     const input = document.getElementById('imageData');
     const file = input.files[0];
+    if(!file){
+      return save({ name: name });
+    }
     const reader = new FileReader();
     reader.onloadend = (output)=> {
       const imageData = output.target.result;
-      var newImage = document.createElement('img');
-      newImage.src = imageData;
-
-      document.getElementById("imgTest").innerHTML = newImage.outerHTML;
       save({ name: name, imageData });
     }
     reader.readAsDataURL(file);
-    //console.log(reader);
-    //const imageData = new FormData(form);
-    //save({ name: name, imageData });
   }
   return (
     <form className='well'  encType="multipart/form-data" >
-      <div id='imgTest' />
       {
         error ? (
           <div className='alert alert-warning'>Error</div>
@@ -35,7 +30,7 @@ const _ProductForm = ({ name, onChange, error, save } )=> {
         <input value={ name } className='form-control' name='name' onChange={ onChange }/>
       </div>
       <div className='form-group'>
-        <input className='form-control' name='imageData' id='imageData' type='file'/>
+        <input className='form-control'  accept="image/*" name='imageData' id='imageData' type='file'/>
       </div>
       <button className='btn btn-primary' onClick={ _save } disabled={ !name }>Save</button>
     </form>
