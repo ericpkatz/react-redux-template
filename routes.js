@@ -1,12 +1,11 @@
 const app = require('express').Router();
 const models = require('./db').models;
 const jwt = require('jwt-simple');
-const uploadToAws = require('./aws');
+const aws = require('./aws');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 module.exports = app;
-
 
 app.get('/products', (req, res, next)=> {
   models.Product.findAll({ order: 'name'})
@@ -24,12 +23,12 @@ app.post('/products', (req, res, next)=> {
   let product;
   models.Product.create(req.body)
     .then( _product => product = _product) 
-    .then( () => uploadToAws(req.body.imageData))
-    .then( url => {
-      if(!url){
+    .then( () => aws.upload(req.body.imageData))
+    .then( awsKey => {
+      if(!awsKey){
         return product;
       }
-      product.imageURL = url;
+      product.awsKey = awsKey;
       return product.save();
     })
     .then( product => res.send(product))

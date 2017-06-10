@@ -7,8 +7,16 @@ const Product = conn.define('product', {
     type: conn.Sequelize.STRING,
     unique: true
   },
-  imageURL: {
+  awsKey: {
     type: conn.Sequelize.STRING
+  }
+}, {
+  getterMethods: {
+    imageURL: function(){
+      if(this.awsKey){
+        return `https://s3.amazonaws.com/${process.env.AWS_BUCKET}/${this.awsKey}`;
+      }
+    }
   }
 });
 

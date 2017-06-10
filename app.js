@@ -8,6 +8,7 @@ const app = express();
 var config = process.env; 
 if(process.env.NODE_ENV === 'development'){
   config = require('./config.json');
+  Object.assign(process.env, config);
 }
 
 
