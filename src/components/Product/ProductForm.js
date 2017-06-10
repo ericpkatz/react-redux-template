@@ -15,12 +15,13 @@ const _ProductForm = ({ name, onChange, error, save } )=> {
     const reader = new FileReader();
     reader.onloadend = (output)=> {
       const imageData = output.target.result;
+      console.log(imageData);
       save({ name: name, imageData });
     }
     reader.readAsDataURL(file);
   }
   return (
-    <form className='well'  encType="multipart/form-data" >
+    <form className='well'>
       {
         error ? (
           <div className='alert alert-warning'>Error</div>

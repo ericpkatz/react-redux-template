@@ -6,25 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 module.exports = app;
 
-app.get('/products', (req, res, next)=> {
-  models.Product.findAll({ order: 'name'})
-    .then( products => res.send(products ))
-    .catch(next);
-});
-
-app.delete('/products/:id', (req, res, next)=> {
-  models.Product.findById(req.params.id)
-    .then( product => product.destroy())
-    .then( () => res.sendStatus(204))
-    .catch(next);
-});
-
-app.post('/products', (req, res, next)=> {
-  models.Product.create(req.body)
-    .then( product => product.upload(req.body.imageData)) 
-    .then( product => res.send(product))
-    .catch(next);
-});
+app.use('/products', require('./product.routes'));
 
 app.get('/auth/:token', (req, res, next)=> {
   const token = jwt.decode(req.params.token, JWT_SECRET); 
