@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 
 const conn = new Sequelize(process.env.DATABASE_URL);
 
+const aws = require('./aws');
 const Product = conn.define('product', {
   name: {
     type: conn.Sequelize.STRING,
@@ -17,7 +18,25 @@ const Product = conn.define('product', {
         return `https://s3.amazonaws.com/${process.env.AWS_BUCKET}/${this.awsKey}`;
       }
     }
-  }
+  },
+  instanceMethods: {
+    upload: function(imageData){
+      return aws.upload(imageData)
+        .then( awsKey => {
+          if(awsKey){
+            this.awsKey = awsKey;
+            return this.save();
+          }
+          return this;
+        });
+    }
+  },
+  hooks: {
+    beforeDestroy: function(product){
+      console.log('hook');
+      return aws.destroy(product.awsKey);
+    }
+  } 
 });
 
 const User = conn.define('user', {

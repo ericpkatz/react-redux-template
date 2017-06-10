@@ -1,7 +1,6 @@
 const app = require('express').Router();
 const models = require('./db').models;
 const jwt = require('jwt-simple');
-const aws = require('./aws');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
@@ -14,23 +13,15 @@ app.get('/products', (req, res, next)=> {
 });
 
 app.delete('/products/:id', (req, res, next)=> {
-  models.Product.destroy({ where: { id: req.params.id}})
+  models.Product.findById(req.params.id)
+    .then( product => product.destroy())
     .then( () => res.sendStatus(204))
     .catch(next);
 });
 
 app.post('/products', (req, res, next)=> {
-  let product;
   models.Product.create(req.body)
-    .then( _product => product = _product) 
-    .then( () => aws.upload(req.body.imageData))
-    .then( awsKey => {
-      if(!awsKey){
-        return product;
-      }
-      product.awsKey = awsKey;
-      return product.save();
-    })
+    .then( product => product.upload(req.body.imageData)) 
     .then( product => res.send(product))
     .catch(next);
 });
