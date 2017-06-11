@@ -16,7 +16,7 @@ const Login = ({ name, password, onChange, login, error, GOOGLE_OAUTH, GITHUB_OA
         <input value={ name } className='form-control' name='name' onChange={ onChange }/>
       </div>
       <div className='form-group'>
-        <input value={ password } className='form-control' name='password' onChange={ onChange }/>
+        <input type='password' value={ password } className='form-control' name='password' onChange={ onChange }/>
       </div>
       <button className='btn btn-primary' onClick={ login } disabled={ !name || !password}>Login</button>
       { GOOGLE_OAUTH ? (

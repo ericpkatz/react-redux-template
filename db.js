@@ -7,6 +7,10 @@ const User = conn.define('user', {
     type: conn.Sequelize.STRING,
     unique: true
   },
+  isAdmin: {
+    type: conn.Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   password: conn.Sequelize.STRING,
   googleUserId: conn.Sequelize.STRING,
   githubUserId: conn.Sequelize.STRING,
@@ -29,6 +33,7 @@ const seed = ()=> {
       return Promise.all(promises);
     })
     .then( result => [ foo, bar, bazz, moe, larry, curly ] = result )
+    .then( ()=> User.create({ name: process.env.ADMIN_USERNAME, password: process.env.ADMIN_PASSWORD, isAdmin: true}))
     .then(()=> {
       return {
         moe,

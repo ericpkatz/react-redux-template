@@ -1,4 +1,11 @@
 import axios from 'axios';
+
+const authConfig = ()=> {
+  return {
+      headers: {'Authorization': `Bearer ${ window.localStorage.getItem('token')}`} 
+    };
+}
+
 const LOAD_PRODUCTS_SUCCESS = 'LOAD_PRODUCTS_SUCCESS';
 
 const loadProductsSuccess = (products)=> ({
@@ -15,7 +22,7 @@ const loadProducts = ()=> {
 
 const destroyProduct = (product)=> {
   return (dispatch)=> {
-    return axios.delete(`/api/products/${product.id}`)
+    return axios.delete(`/api/products/${product.id}`, authConfig())
       .then(response => dispatch(loadProducts()));
   };
 };
@@ -23,7 +30,7 @@ const destroyProduct = (product)=> {
 const createProduct = (product, imageData)=> {
   return (dispatch)=> {
     const payload = Object.assign({}, product, { imageData });
-    return axios.post(`/api/products`, payload)
+    return axios.post(`/api/products`, payload, authConfig())
       .then(response => dispatch(loadProducts()));
   };
 };
@@ -31,7 +38,7 @@ const createProduct = (product, imageData)=> {
 const updateProduct = (product, imageData)=> {
   const payload = Object.assign({}, product, { imageData });
   return (dispatch)=> {
-    return axios.put(`/api/products/${product.id}`, payload)
+    return axios.put(`/api/products/${product.id}`, payload, authConfig())
       .then(response => dispatch(loadProducts()));
   };
 };
