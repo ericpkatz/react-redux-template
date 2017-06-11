@@ -8,6 +8,7 @@ import Home from './components/Home';
 import ProductsPage from './components/Product/ProductsPage'; 
 import LoginPage from './components/LoginPage'; 
 import GithubPage from './components/GithubPage'; 
+import ProductDetail from './components/Product/ProductDetail';
 
 import { exchangeTokenForUser } from './redux/reducers/authReducer';
 import { loadProducts } from './redux/reducers/productsReducer';
@@ -21,6 +22,7 @@ const Routes = ({ bootstrap, getRepos })=> {
       <Route path='/' component={ Layout }>
         <IndexRoute component={ Home } />
         <Route path='products' component={ProductsPage} />
+        <Route path='products/:id' component={ProductDetail} />
         <Route path='login' component={LoginPage} />
         <Route path='github' component={GithubPage} onEnter={ getRepos }/>
       </Route>
@@ -31,14 +33,15 @@ const Routes = ({ bootstrap, getRepos })=> {
 const mapDispatchToProps = (dispatch)=> {
   const bootstrap = ()=> {
     dispatch(exchangeTokenForUser())
-      .then( user => console.log(user));
+      .then( user => console.log(user))
+      .catch( er => window.localStorage.removeItem('token'));
     dispatch(loadProducts());
   };
 
   const getRepos = ()=> {
     dispatch(exchangeTokenForUser())
       .then( ()=> dispatch(loadRepos()));
-  }
+  };
   return {
     bootstrap,
     getRepos

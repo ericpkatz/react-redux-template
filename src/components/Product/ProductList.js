@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { destroyProduct } from '../../redux/reducers/productsReducer';
 
 const ProductListItem = ({ product, destroyProduct })=> (
   <li className='list-group-item'>
-    { product.name }
+    <Link to={`/products/${product.id}`}>{ product.name }</Link>
     {
       product.imageURL ? (
         <img src={ product.imageURL } width='100px' height='100px'/>

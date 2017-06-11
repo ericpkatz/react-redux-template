@@ -27,10 +27,19 @@ const createProduct = (product)=> {
   };
 };
 
+const updateProduct = (product, imageData)=> {
+  const payload = Object.assign({}, product, { imageData });
+  return (dispatch)=> {
+    return axios.put(`/api/products/${product.id}`, payload)
+      .then(response => dispatch(loadProducts()));
+  };
+};
+
 export {
   loadProducts,
   destroyProduct,
-  createProduct
+  createProduct,
+  updateProduct
 };
 
 const productsReducer = (state=[], action)=> {

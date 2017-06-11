@@ -14,7 +14,7 @@ if(process.env.NODE_ENV === 'development'){
 
 module.exports = app;
 
-app.use(require('body-parser').json());
+app.use(require('body-parser').json({ limit: '2mb' }));
 
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));

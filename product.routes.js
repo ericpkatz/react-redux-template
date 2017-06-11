@@ -26,3 +26,14 @@ app.post('/', (req, res, next)=> {
     .then( product => res.send(product))
     .catch(next);
 });
+
+app.put('/:id', (req, res, next)=> {
+  models.Product.findById(req.params.id)
+    .then( product => {
+      product.name = req.body.name;
+      return product.save();
+    })
+    .then( product => product.upload(req.body.imageData))
+    .then( product => res.send(product))
+    .catch(next);
+});

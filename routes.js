@@ -9,7 +9,13 @@ module.exports = app;
 app.use('/products', require('./product.routes'));
 
 app.get('/auth/:token', (req, res, next)=> {
-  const token = jwt.decode(req.params.token, JWT_SECRET); 
+  let token;
+  try{
+    token = jwt.decode(req.params.token, JWT_SECRET); 
+  }
+  catch(er){
+    return res.sendStatus(401);
+  }
   models.User.findById(token.id)
     .then( user => res.send(user))
     .catch(next);

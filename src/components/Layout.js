@@ -5,7 +5,7 @@ import { logout } from '../redux/reducers/authReducer';
 
 const Layout = ({ children, products, auth, logout })=> (
   <div className='container'>
-    <h1>React Redux w/ OAUTH Template</h1>
+    <h1>React Redux w/ OAUTH and AWS</h1>
     <div className='container'>
     <Link to='/'>Home</Link>
     { ' | ' }
