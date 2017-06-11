@@ -17,3 +17,4 @@
 * modify the .env file for other settings
 * npm run start:dev
 * when deploying make sure to set environment variables
+* use .env file to reference appropriate environment variables
