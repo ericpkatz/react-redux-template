@@ -5,7 +5,8 @@ const Product = require('./product.model.js');
 const User = conn.define('user', {
   name: {
     type: conn.Sequelize.STRING,
-    unique: true
+    unique: true,
+    allowNull: false
   },
   isAdmin: {
     type: conn.Sequelize.BOOLEAN,
@@ -33,7 +34,11 @@ const seed = ()=> {
       return Promise.all(promises);
     })
     .then( result => [ foo, bar, bazz, moe, larry, curly ] = result )
-    .then( ()=> User.create({ name: process.env.ADMIN_USERNAME, password: process.env.ADMIN_PASSWORD, isAdmin: true}))
+    .then( ()=> { 
+      if(process.env.ADMIN_USERNAME && process.env.ADMIN_PASSWORD){
+      User.create({ name: process.env.ADMIN_USERNAME, password: process.env.ADMIN_PASSWORD, isAdmin: true});
+      }
+    })
     .then(()=> {
       return {
         moe,
