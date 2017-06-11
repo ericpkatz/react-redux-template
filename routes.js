@@ -19,7 +19,13 @@ app.use((req, res, next)=> {
   catch(er){
     return next(er); 
   }
-  models.User.findById(userId)
+  const config = {
+    attributes: {
+      exclude: [ 'password', 'githubAccessToken', 'facebookAccessToken', 'googleAccessToken' ]
+    }
+  };
+
+  models.User.findById(userId, config)
     .then( user => {
       req.user = user;
       next();
@@ -27,37 +33,4 @@ app.use((req, res, next)=> {
 });
 
 app.use('/products', require('./product.routes'));
-
-app.get('/auth/:token', (req, res, next)=> {
-  let token;
-  try{
-    token = jwt.decode(req.params.token, JWT_SECRET); 
-  }
-  catch(er){
-    return res.sendStatus(401);
-  }
-  const config = {
-    attributes: {
-      exclude: [ 'password', 'githubAccessToken', 'facebookAccessToken', 'googleAccessToken' ]
-    }
-  };
-  models.User.findById(token.id, config)
-    .then( user => res.send(user))
-    .catch(next);
-});
-
-app.post('/auth', (req, res, next)=> {
-  models.User.findOne({ 
-    where: {
-      name: req.body.name,
-      password: req.body.password
-    }
-  })
-  .then( user => {
-    if(!user){
-      return res.sendStatus(401);
-    }
-    const token = jwt.encode({ id: user.id }, JWT_SECRET); 
-    res.send({ token });
-  });
-});
+app.use('/auth', require('./auth.routes'));

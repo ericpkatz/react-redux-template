@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { authConfig } from '../../common/auth';
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -20,13 +21,13 @@ const exchangeTokenForUser = ()=> {
   return (dispatch)=> {
     if(!localStorage.getItem('token'))
       return Promise.reject('no local storage token');
-    return axios.get(`/api/auth/${localStorage.getItem('token')}`)
+    return axios.get('/api/auth/', authConfig())
       .then(response => response.data)
       .then(user => {
-        dispatch(loginUserSuccess(user))
+        dispatch(loginUserSuccess(user));
         return user;
-      })
-  }
+      });
+  };
 };
 
 

@@ -1,10 +1,5 @@
 import axios from 'axios';
-
-const authConfig = ()=> {
-  return {
-      headers: {'Authorization': `Bearer ${ window.localStorage.getItem('token')}`} 
-    };
-}
+import { authConfig } from '../../common/auth';
 
 const LOAD_PRODUCTS_SUCCESS = 'LOAD_PRODUCTS_SUCCESS';
 
