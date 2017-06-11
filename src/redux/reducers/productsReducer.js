@@ -20,9 +20,10 @@ const destroyProduct = (product)=> {
   };
 };
 
-const createProduct = (product)=> {
+const createProduct = (product, imageData)=> {
   return (dispatch)=> {
-    return axios.post(`/api/products`, product)
+    const payload = Object.assign({}, product, { imageData });
+    return axios.post(`/api/products`, payload)
       .then(response => dispatch(loadProducts()));
   };
 };

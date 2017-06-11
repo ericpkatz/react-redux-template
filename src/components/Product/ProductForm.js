@@ -1,65 +1,77 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { createProduct } from '../../redux/reducers/productsReducer.js';
+import { hashHistory } from 'react-router';
 
 import FileInput from '../common/FileInput';
 
-
-const _ProductForm = ({ name, onChange, error, save, onChangeFile, imageData } )=> {
+const _ProductForm = ({ product, onChangeName, onSave, onChangeFile, imageData, error, onCancel })=> {
+  const title = product.id ? 'Update' : 'Insert';
   return (
     <form className='well'>
-      <h2>Insert a New Product</h2>
+      <h2>{ title } a Product</h2>
       {
         error ? (
           <div className='alert alert-warning'>Error</div>
         ): (null)
       }
       <div className='form-group'>
-        <input value={ name } className='form-control' name='name' onChange={ onChange }/>
+        <label>Name</label>
+        <input className='form-control' value={ product.name } onChange={ onChangeName } />
       </div>
+      {
+        product.imageURL ? (
+          <img src={ product.imageURL } width='100px' height='100px'/>
+        ) : ( null )
+      }
       <div className='form-group'>
         <FileInput onChangeFile={ onChangeFile } imageData={ imageData }/>
       </div>
-      <button className='btn btn-primary' onClick={ save } disabled={ !name }>Save</button>
+      <button className='btn btn-primary' onClick={ onSave }>{ title }</button>
+      <button className='btn btn-default' onClick={ onCancel }>Cancel</button>
     </form>
   );
 };
 
 class ProductForm extends Component{
-  constructor(){
-    super();
-    this.state = { name: '', imageData: '' };
-    this.onChange = this.onChange.bind(this);
+  constructor(props){
+    super(props);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onSave = this.onSave.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
+    this.state = { product: null, imageData: '', error: null };
+  }
+  componentWillReceiveProps(nextProps){
+    if(nextProps.product && !this.state.product){
+      this.setState({ product: nextProps.product });
+    }
   }
   onChangeFile(imageData){
     this.setState({ imageData });
   }
-  onChange(ev){
-    let change = {};
-    change[ev.target.name] = ev.target.value;
-    this.setState(change);
+  onSave(ev){
+    ev.preventDefault();
+    this.props.save(this.state.product, this.state.imageData)
+      .catch((err)=> {
+        this.setState({ error: err });
+      });
+  }
+  onChangeName(ev){
+    const product = this.state.product;
+    product.name = ev.target.value;
+    this.setState({ product });
+  }
+  onCancel(ev){
+    ev.preventDefault();
+    hashHistory.push('products');
   }
   render(){
-    const { name, error, imageData } = this.state;
-    const save = (ev)=> {
-      ev.preventDefault();
-      this.props.save(this.state)
-        .then(()=> this.setState({ name: '', imageData: '', error: null }))
-        .catch((ex)=> this.setState( { error: ex }));
-    };
+    const { product, imageData, error } = this.state;
+    if(!product){
+      return null;
+    }
     return (
-      <_ProductForm error={error} save={ save } imageData={imageData} name={ name } onChange={ this.onChange }onChangeFile={this.onChangeFile}></_ProductForm>
+      <_ProductForm onSave={ this.onSave } product={ product } onChangeName={ this.onChangeName } onChangeFile={ this.onChangeFile } imageData={ imageData } error={ error } onCancel={ this.onCancel } /> 
     );
   }
 }
 
-const mapDispatchToProps = (dispatch)=> {
-  return {
-    save: (product)=> {
-      return dispatch(createProduct(product));
-    }
-  };
-};
-
-export default connect(null, mapDispatchToProps)(ProductForm);
+export default ProductForm; 

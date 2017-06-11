@@ -8,7 +8,9 @@ const ProductListItem = ({ product, destroyProduct })=> (
     <Link to={`/products/${product.id}`}>{ product.name }</Link>
     {
       product.imageURL ? (
-        <img src={ product.imageURL } width='100px' height='100px'/>
+        <div className='well'>
+          <img src={ product.imageURL } width='100px' height='100px'/>
+        </div>
       ) : ( null )
     }
     <button onClick={ destroyProduct } className='btn btn-danger pull-right'>x</button>

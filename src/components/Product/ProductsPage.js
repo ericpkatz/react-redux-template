@@ -1,10 +1,11 @@
 import React from 'react';
 import ProductList from './ProductList';
-import ProductForm from './ProductForm';
+import { Link } from 'react-router';
 
 const ProductsPage = ()=> (
   <div className='well'>
-    <ProductForm />
+    <Link className='btn btn-primary' to='products/insert'>Insert A New Product</Link>
+    <h2>Products</h2>
     <ProductList />
   </div>
 );

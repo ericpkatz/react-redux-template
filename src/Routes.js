@@ -8,7 +8,8 @@ import Home from './components/Home';
 import ProductsPage from './components/Product/ProductsPage'; 
 import LoginPage from './components/LoginPage'; 
 import GithubPage from './components/GithubPage'; 
-import ProductDetail from './components/Product/ProductDetail';
+import ProductEdit from './components/Product/ProductEdit';
+import ProductInsert from './components/Product/ProductInsert';
 
 import { exchangeTokenForUser } from './redux/reducers/authReducer';
 import { loadProducts } from './redux/reducers/productsReducer';
@@ -22,7 +23,8 @@ const Routes = ({ bootstrap, getRepos })=> {
       <Route path='/' component={ Layout }>
         <IndexRoute component={ Home } />
         <Route path='products' component={ProductsPage} />
-        <Route path='products/:id' component={ProductDetail} />
+        <Route path='products/insert' component={ ProductInsert } />
+        <Route path='products/:id' component={ProductEdit} />
         <Route path='login' component={LoginPage} />
         <Route path='github' component={GithubPage} onEnter={ getRepos }/>
       </Route>
