@@ -2,21 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { destroyProduct } from '../../redux/reducers/productsReducer';
-
-const ProductListItem = ({ product, destroyProduct })=> (
-  <li className='list-group-item'>
-    <Link to={`/products/${product.id}`}>{ product.name }</Link>
-    {
-      product.imageURL ? (
-        <div className='well'>
-          <img src={ product.imageURL } width='100px' height='100px'/>
-        </div>
-      ) : ( null )
-    }
-    <button onClick={ destroyProduct } className='btn btn-danger pull-right'>x</button>
-    <br style={{ clear: 'both'}} />
-  </li>
-);
+import ProductListItem from './ProductListItem';
 
 const ProductList = ({ products, destroyProduct})=> (
     <ul className='list-group'>

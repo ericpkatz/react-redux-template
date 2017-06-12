@@ -18,6 +18,7 @@
     "express": "^4.15.2",
     "express-bearer-token": "^2.1.0",
     "github": "^9.2.0",
+    "jquery": "^2.2.4",
     "jwt-simple": "^0.5.1",
     "mocha": "^3.3.0",
     "passport": "^0.3.2",

@@ -6,6 +6,7 @@ const bearerToken = require('express-bearer-token');
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 module.exports = app;
+
 app.use(bearerToken());
 
 app.use((req, res, next)=> {
