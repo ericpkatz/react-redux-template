@@ -8,6 +8,9 @@ const User = conn.define('user', {
     unique: true,
     allowNull: false
   },
+  position: {
+    type: conn.Sequelize.STRING
+  },
   isAdmin: {
     type: conn.Sequelize.BOOLEAN,
     defaultValue: false

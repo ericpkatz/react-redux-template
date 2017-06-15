@@ -10,6 +10,7 @@ import LoginPage from './components/LoginPage';
 import GithubPage from './components/GithubPage'; 
 import ProductEdit from './components/Product/ProductEdit';
 import ProductInsert from './components/Product/ProductInsert';
+import SettingsPage from './components/Settings/SettingsPage';
 
 import { exchangeTokenForUser } from './redux/reducers/authReducer';
 import { loadProducts } from './redux/reducers/productsReducer';
@@ -23,6 +24,7 @@ const Routes = ({ bootstrap, getRepos })=> {
       <Route path='/' component={ Layout }>
         <IndexRoute component={ Home } />
         <Route path='products' component={ProductsPage} />
+        <Route path='settings' component={ SettingsPage } />
         <Route path='products/insert' component={ ProductInsert } />
         <Route path='products/:id' component={ProductEdit} />
         <Route path='login' component={LoginPage} />

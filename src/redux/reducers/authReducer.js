@@ -30,6 +30,13 @@ const exchangeTokenForUser = ()=> {
   };
 };
 
+const updateUser = (user)=> {
+  return (dispatch)=> {
+    return axios.put(`/api/auth/`, user, authConfig())
+      .then(response => dispatch(loginUserSuccess(user)));
+  };
+};
+
 
 const attemptLogin = (dispatch)=> {
   return (dispatch)=> {
@@ -63,6 +70,7 @@ export {
   login,
   exchangeTokenForUser,
   logout,
+  updateUser
 };
 
 

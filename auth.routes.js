@@ -13,6 +13,16 @@ app.get('/', (req, res, next)=> {
   res.send(req.user);
 });
 
+app.put('/', (req, res, next)=> {
+  if(!req.user){
+    return next('bad token');
+  }
+  req.user.position = req.body.position;
+  req.user.save()
+    .then( user => res.send(user))
+    .catch( (er) => next(er));
+});
+
 app.post('/', (req, res, next)=> {
   models.User.findOne({ 
     where: {

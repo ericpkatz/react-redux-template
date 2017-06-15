@@ -25,6 +25,8 @@ const Layout = ({ children, products, auth, logout })=> (
             ): (null)
           }
           <a onClick={ logout }>Logout ({ auth.name })</a>
+          { ' | ' }
+          <Link to='/settings'>Settings</Link>
         </span>
       )
     }
