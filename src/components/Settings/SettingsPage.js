@@ -5,29 +5,32 @@ import { updateUser } from '../../redux/reducers/authReducer.js';
 class SettingsPage extends Component{
   constructor(){
     super();
-    this.state = { auth: {} };
+    this.state = { message: '' };
     this.updatePosition = this.updatePosition.bind(this);
-  }
-  componentWillReceiveProps(nextProps){
-    this.setState({ auth: nextProps.auth });
   }
   updatePosition(ev){
     const auth = this.state.auth;
     Object.assign(auth, { position: ev.target.value });
     this.setState({ auth });
   }
+  componentDidUpdate(){
+    const autocomplete = new google.maps.places.Autocomplete(this.refs.autocomplete);
+    autocomplete.addListener('place_changed', ()=> {
+      const place = autocomplete.getPlace();
+      const address = place.formatted_address;
+      const auth = this.props.auth;
+      auth.position = address;
+      this.props.updateUser(auth)
+        .then(()=> {
+          this.setState({ message: 'success' });
+        });
+    });
+  }
   render(){
     const { auth, updateUser }  = this.props;
     if(!auth.id){
       return null;
     }
-    const save = (ev)=> {
-      ev.preventDefault();
-      updateUser(this.state.auth)
-        .then(()=> {
-          this.setState({ message: 'success' });
-        });
-    };
     return (
       <div>
       <h2>User Settings for { auth.name }</h2>
@@ -36,10 +39,12 @@ class SettingsPage extends Component{
         }
         <form>
           <div className='form-group'>
-            <label>Position</label>
-            <input onChange={ this.updatePosition } className='form-control' value={ this.state.auth.position }/>
+            <input type='text' className='form-control' ref='autocomplete' />
           </div>
-          <button className='btn btn-primary' onClick={ save }>Update</button>
+          <div className='form-group'>
+            <label>Position</label>
+            <div>{ auth.position }</div>
+          </div>
         </form>
       </div>
     );

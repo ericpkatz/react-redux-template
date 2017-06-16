@@ -22,8 +22,9 @@ app.use('/dist', express.static(path.join(__dirname, 'dist')));
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 const oauthProviderMap = require('./oauth')(app, config, JWT_SECRET);
+const params = Object.assign({}, oauthProviderMap, { GOOGLE_PLACES_KEY: process.env.GOOGLE_PLACES_KEY });
 
-app.get('/', (req, res )=> res.render('index.ejs', oauthProviderMap ));
+app.get('/', (req, res )=> res.render('index.ejs', params ));
 
 app.use('/api', require('./routes'));
 
