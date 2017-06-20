@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authConfig } from '../../common/auth';
+import { authConfig, authorizedRequest } from '../../common/auth';
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -21,7 +21,7 @@ const exchangeTokenForUser = ()=> {
   return (dispatch)=> {
     if(!localStorage.getItem('token'))
       return Promise.reject('no local storage token');
-    return axios.get('/api/auth/', authConfig())
+    return authorizedRequest({ url: '/api/auth/' })
       .then(response => response.data)
       .then(user => {
         dispatch(loginUserSuccess(user));
@@ -32,8 +32,8 @@ const exchangeTokenForUser = ()=> {
 
 const updateUser = (user)=> {
   return (dispatch)=> {
-    return axios.put(`/api/auth/`, user, authConfig())
-      .then(response => dispatch(loginUserSuccess(user)));
+    return authorizedRequest({ method: 'put', url: `/api/auth/`, payload: user })
+      .then(() => dispatch(loginUserSuccess(user)));
   };
 };
 

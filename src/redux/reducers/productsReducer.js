@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authConfig } from '../../common/auth';
+import { authorizedRequest } from '../../common/auth';
 
 const LOAD_PRODUCTS_SUCCESS = 'LOAD_PRODUCTS_SUCCESS';
 
@@ -17,24 +17,31 @@ const loadProducts = ()=> {
 
 const destroyProduct = (product)=> {
   return (dispatch)=> {
-    return axios.delete(`/api/products/${product.id}`, authConfig())
-      .then(response => dispatch(loadProducts()));
+    const url = `/api/products/${product.id}`;
+    const method = 'delete';
+    return authorizedRequest({ url, method })
+      .then(() => dispatch(loadProducts()));
   };
 };
 
 const createProduct = (product, imageData)=> {
   return (dispatch)=> {
     const payload = Object.assign({}, product, { imageData });
-    return axios.post(`/api/products`, payload, authConfig())
-      .then(response => dispatch(loadProducts()));
+    const method = 'post';
+    const url = 'api/products';
+    return authorizedRequest({ url, method, payload })
+      .then(() => dispatch(loadProducts()));
   };
 };
 
 const updateProduct = (product, imageData)=> {
   const payload = Object.assign({}, product, { imageData });
+  const method = 'put';
+  const url = `/api/products/${product.id}`;
+
   return (dispatch)=> {
-    return axios.put(`/api/products/${product.id}`, payload, authConfig())
-      .then(response => dispatch(loadProducts()));
+    return authorizedRequest({ url, method, payload })
+      .then(() => dispatch(loadProducts()));
   };
 };
 
