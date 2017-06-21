@@ -9,7 +9,7 @@ const User = conn.define('user', {
     allowNull: false
   },
   position: {
-    type: conn.Sequelize.STRING
+    type: conn.Sequelize.JSONB
   },
   isAdmin: {
     type: conn.Sequelize.BOOLEAN,

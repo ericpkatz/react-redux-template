@@ -19,7 +19,7 @@ class SettingsPage extends Component{
       const place = autocomplete.getPlace();
       const address = place.formatted_address;
       const auth = this.props.auth;
-      auth.position = address;
+      auth.position = place;
       this.props.updateUser(auth)
         .then(()=> {
           this.setState({ message: 'success' });
@@ -43,7 +43,7 @@ class SettingsPage extends Component{
           </div>
           <div className='form-group'>
             <label>Position</label>
-            <div>{ auth.position }</div>
+            <div>{ auth.position.url }</div>
           </div>
         </form>
       </div>
