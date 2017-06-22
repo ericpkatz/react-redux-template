@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/reducers/authReducer.js';
+import Map from '../common/Map';
 
 class SettingsPage extends Component{
   constructor(){
@@ -43,9 +44,10 @@ class SettingsPage extends Component{
           </div>
           <div className='form-group'>
             <label>Position</label>
-            <div>{ auth.position.url }</div>
+            <div>{ auth.position ? auth.position.url : null }</div>
           </div>
         </form>
+        <Map />
       </div>
     );
   }
